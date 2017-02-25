@@ -1,0 +1,28 @@
+.pane-search {
+  display: flex;
+  height: 40px;
+  background: $color-sub-light;
+
+  > .input {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin: 0;
+    border: 0;
+    height: 100%;
+    width: 100%;
+    color: $color-white;
+    font-weight: 700;
+    background: transparent;
+    outline: 0;
+  }
+
+  > .submit {
+    @include plain-button;
+    margin-left: auto;
+    color: $color-white;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: transparent;
+    height: 100%;
+  }
+}

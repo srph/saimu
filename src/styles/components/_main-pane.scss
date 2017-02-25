@@ -1,0 +1,38 @@
+.pane-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  opacity: 0.5;
+  transition: 0.1s all ease;
+
+  &::after {
+    @include fa-icon;
+    content: $fa-var-angle-right;
+    color: $color-white;
+  }
+
+  > .info {
+    width: 100%;
+  }
+
+  > .info > .title {
+    margin-bottom: 4px;
+    color: $color-primary;
+  }
+
+  > .info > .subtitle {
+    margin-bottom: 0;
+    color: #9194A0;
+    text-transform: uppercase;
+  }
+
+  > .info > .subtitle > .fa {
+    margin-right: 8px;
+    color: $color-primary;
+  }
+
+  &.-active,
+  &:hover {
+    opacity: 1;
+  }
+}
