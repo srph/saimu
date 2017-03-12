@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 import Helmet from 'react-helmet';
+import {Link} from 'react-router';
+import history from 'app/history';
 
 export default class HomeView extends React.Component {
   render() {
@@ -52,9 +54,9 @@ export default class HomeView extends React.Component {
                 <h4 className="sub">2,739.00</h4>
               </div>
 
-              <a href="#" className="button -primary -rounded">
+              <Link to="/create" className="button -primary -rounded">
                 New Record
-              </a>
+              </Link>
             </div>
 
             <div className="main-content-section">
@@ -62,7 +64,7 @@ export default class HomeView extends React.Component {
                 2017
               </h4>
 
-              <table className="table">
+              <table className="table -clickable">
                 <thead>
                   <tr>
                     <th>Status</th>
@@ -74,7 +76,7 @@ export default class HomeView extends React.Component {
                 </thead>
 
                 <tbody>
-                  <tr>
+                  <tr onClick={this.handleClick}>
                     <td>
                       <span className="tag-type -danger">
                         Unpaid
@@ -96,7 +98,13 @@ export default class HomeView extends React.Component {
             </div>
           </div>
         </div>
+
+        {this.props.children}
       </div>
     );
+  }
+
+  handleClick() {
+    history.push('/details');
   }
 }

@@ -1,0 +1,41 @@
+.modal-block {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  overflow-y: scroll;
+
+  > .modal {
+    margin: 50px auto;
+    width: 400px;
+    background: $color-white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    outline: 0;
+  }
+
+  > .modal > .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 8px;
+    border-bottom: 1px solid $color-gray;
+    font-weight: 600;
+  }
+
+  > .modal > .heading > .close {
+    @include plain-button;
+    color: $color-gray;
+  }
+
+  > .modal > .body {
+    padding: 8px;
+    background: $color-white;
+  }
+
+  > .modal > .footer {
+    padding: 8px;
+    background: $color-sub;
+  }
+}

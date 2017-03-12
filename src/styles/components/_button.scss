@@ -30,6 +30,12 @@
     @include button-variant($color-primary);
   }
 
+  &.-small {
+    font-size: 12px;
+    line-height: $form-size-small - 1px;
+    height: $form-size-small;
+  }
+
   &.-block {
     display: block;
     width: 100%;

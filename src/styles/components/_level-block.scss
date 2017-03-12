@@ -1,0 +1,14 @@
+.level-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > .section {
+    display: flex;
+    align-items: center;
+  }
+
+  > .section > .item:not(:last-child) {
+    margin-right: 8px;
+  }
+}

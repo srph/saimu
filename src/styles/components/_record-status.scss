@@ -1,0 +1,15 @@
+.record-status {
+  > .tag-type {
+    margin-right: 10px;
+  }
+
+  > .info {
+    color: $color-white;
+    font-size: $font-size-h6;
+  }
+
+  > .info > .highlight {
+    color: $color-gray;
+    text-transform: uppercase;
+  }
+}

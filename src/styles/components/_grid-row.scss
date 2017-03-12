@@ -1,0 +1,11 @@
+.grid-row {
+  @include clearfix;
+  margin-left: -($grid-gutter);
+  margin-right: -($grid-gutter);
+
+  > .column {
+    float: left;
+    padding-left: $grid-gutter;
+    padding-right: $grid-gutter;
+  }
+}

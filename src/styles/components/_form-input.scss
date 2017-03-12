@@ -1,0 +1,13 @@
+.form-input {
+  display: block;
+  padding: 0 8px;
+  height: $form-size;
+  background: $color-white;
+  border: 1px solid $color-gray;
+  border-radius: $border-radius;
+
+  &:focus {
+    outline: 0;
+    border-color: $color-info;
+  }
+}
