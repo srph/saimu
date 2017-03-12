@@ -5,9 +5,9 @@
     "watch:script": "node_modules/.bin/webpack --config=build/webpack.config.js --progress -w --display-error-details",
     "copy:fonts": "cp -r node_modules/font-awesome/fonts/* public/fonts/",
     "prod:script": "node_modules/.bin/webpack --config=build/webpack.config.js --progress -p --verbose --display-error-details",
-    "build:style": "node-sass src/styles/style.scss -o public/dist",
+    "build:style": "node-sass src/styles/style.scss -o public/dist && npm run copy:fonts",
     "watch:style": "npm run build:style && node-sass -w src/styles/style.scss -o public/dist",
-    "post:style": "postcss -u autoprefixer --autoprefixer.browsers '> 5%' -u cssnano -o public/dist/style.css public/dist/style.css",
+    "post:style": "postcss -u autoprefixer --autoprefixer.browsers '> 5%' -u cssnano -o public/dist/style.css public/dist/style.css && npm run copy:fonts",
     "prod:style": "npm run build:style && npm run post:style",
     "prod": "npm run prod:script && npm run prod:style",
     "start": "echo 'Please run a web-server to serve `public/` directory' && npm-run-all --parallel watch:script watch:style"
