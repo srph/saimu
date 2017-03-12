@@ -23,14 +23,14 @@ export default class HomeView extends React.Component {
             <div className="main-pane">
               <a href="#" className="pane-item -active">
                 <div className="info">
-                  <h4 className="title">JC Ricaro</h4>
+                  <h4 className="title">Jane Dane</h4>
                   <h6 className="subtitle">15,629.00 to go</h6>
                 </div>
               </a>
 
               <a href="#" className="pane-item">
                 <div className="info">
-                  <h4 className="title">Brian Bodollo</h4>
+                  <h4 className="title">John Doe</h4>
                   <h6 className="subtitle">15,629.00 to go</h6>
                 </div>
               </a>
