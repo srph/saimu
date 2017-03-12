@@ -1,0 +1,17 @@
+.tag-type {
+  display: inline-block;
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  color: $color-white;
+  border-radius: $border-radius-rounded;
+  text-transform: uppercase;
+  background: $color-gray;
+
+  &.-success {
+    background: $color-success;
+  }
+
+  &.-danger {
+    background: $color-danger;
+  }
+}

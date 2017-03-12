@@ -1,20 +1,17 @@
 .main-layout {
-  position: relative;
-  min-height: 100vh;
+  display: flex;
 
   > .menu {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     width: 300px;
     background: $color-sub;
   }
 
   > .content {
-    padding-left: 300px;
+    padding: 24px;
+    width: 100%;
   }
 }

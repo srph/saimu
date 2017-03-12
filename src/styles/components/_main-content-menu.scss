@@ -1,0 +1,16 @@
+.main-content-menu {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 64px;
+
+  > .heading > .title {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  > .heading > .sub {
+    margin-bottom: 0;
+    font-weight: 400;
+    color: $color-gray;
+  }
+}

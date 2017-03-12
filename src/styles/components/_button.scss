@@ -12,6 +12,7 @@
   display: inline-block;
   padding: 0 16px;
   height: $form-size;
+  font-size: 1rem;
   line-height: ($form-size - 1px);
   color: $color-primary;
   background: $color-white;
@@ -25,12 +26,16 @@
     color: darken($color-primary, 5%);
   }
 
-  &.button--primary {
+  &.-primary {
     @include button-variant($color-primary);
   }
 
-  &.button--block {
+  &.-block {
     display: block;
     width: 100%;
+  }
+
+  &.-rounded {
+    border-radius: $border-radius-rounded;
   }
 }
