@@ -6,6 +6,7 @@ import groupBy from 'lodash/groupBy';
 import tinytime from 'tinytime';
 import numeral from 'numeral';
 import history from 'app/history';
+import Status from './Status';
 
 export default class DebtorView extends React.Component {
   state = {
@@ -71,9 +72,7 @@ export default class DebtorView extends React.Component {
                 {years[year].map((debt, i) =>
                   <tr onClick={this.handleClick} key={i}>
                     <td>
-                      <span className="tag-type -danger">
-                        Unpaid
-                      </span>
+                      <Status debt={debt} />
                     </td>
                     <td>
                       {numeral(debt.amount).format('0,0,00')}
