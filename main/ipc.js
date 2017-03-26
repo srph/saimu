@@ -16,9 +16,9 @@ ipc.on('debtors:get', (event) => {
 })
 
 ipc.on('debts:get', (event, id) => {
-  const debts = db.get('debtors')
-    .find({ id: id })
-    .value()
+  const debts = db.get('debts')
+    .filter({ debtor_id: id })
+    .value() || []
 
   debts.forEach(debt => {
     debt.transactions = db.get('transactions')

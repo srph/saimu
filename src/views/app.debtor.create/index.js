@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
-import {Link} from 'react-router';
 import Modal from 'react-modal2';
 import {Gateway} from 'react-gateway';
 import history from 'app/history';
@@ -17,9 +16,9 @@ export default class HomeCreateView extends Component {
             modalClassName="modal">
             <div className="heading">
               <span>Create New Record</span>
-              <Link to="/" className="close" tabIndex="-1">
+              <button className="close" tabIndex="-1" onClick={this.handleClose}>
                 <i className="fa fa-close" />
-              </Link>
+              </button>
             </div>
 
             <div className="body">
@@ -53,7 +52,7 @@ export default class HomeCreateView extends Component {
     );
   }
 
-  handleClose() {
-    history.push('/');
+  handleClose = () => {
+    history.push(`/d/${this.props.debtor.id}`)
   }
 }

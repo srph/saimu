@@ -20,8 +20,10 @@
     "electron": "^1.6.2",
     "font-awesome": "^4.7.0",
     "history": "^2.1.2",
+    "lodash": "^4.17.4",
     "lodash-id": "^0.14.0",
     "lowdb": "^0.16.0",
+    "numeral": "^2.0.5",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-gateway": "^2.6.0",
@@ -32,7 +34,8 @@
     "react-router": "^2.8.1",
     "react-router-scroll": "^0.3.2",
     "redux": "^3.0.4",
-    "redux-thunk": "^1.0.0"
+    "redux-thunk": "^1.0.0",
+    "tinytime": "^0.2.5"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
