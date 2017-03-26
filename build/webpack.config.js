@@ -34,5 +34,8 @@ module.exports = {
     new webpack.DefinePlugin({ 'process.env': stringify(process.env) })
   ],
 
-  devtool: 'cheap-source-map'
+  devtool: 'cheap-source-map',
+
+  // https://github.com/chentsulin/webpack-target-electron-renderer/blob/master/README.md#migrate-to-webpack-2-or-webpack-1--11215
+  target: 'electron-renderer'
 };

@@ -1,4 +1,5 @@
 import {app, BrowserWindow} from 'electron'
+import ipc from './ipc';
 
 let win = null
 

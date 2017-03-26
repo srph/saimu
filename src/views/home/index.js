@@ -1,9 +1,22 @@
 import React, {PropTypes} from 'react';
+import {ipcRenderer as ipc} from 'electron';
 import Helmet from 'react-helmet';
 import {Link} from 'react-router';
 import history from 'app/history';
 
 export default class HomeView extends React.Component {
+  state = {
+    debtors: []
+  }
+
+  componentDidMount() {
+    ipc.on('debtors:get', (event, debtors) => {
+      this.setState({ debtors })
+    })
+
+    ipc.send('debtors:get')
+  }
+
   render() {
     return (
       <div>
@@ -21,29 +34,14 @@ export default class HomeView extends React.Component {
             </form>
 
             <div className="main-pane">
-              <a href="#" className="pane-item -active">
-                <div className="info">
-                  <h4 className="title">Jane Dane</h4>
-                  <h6 className="subtitle">15,629.00 to go</h6>
-                </div>
-              </a>
-
-              <a href="#" className="pane-item">
-                <div className="info">
-                  <h4 className="title">John Doe</h4>
-                  <h6 className="subtitle">15,629.00 to go</h6>
-                </div>
-              </a>
-
-              <a href="#" className="pane-item">
-                <div className="info">
-                  <h4 className="title">John Doe</h4>
-                  <h6 className="subtitle">
-                    <i className="fa fa-check" />
-                    Paid Up!
-                  </h6>
-                </div>
-              </a>
+              {this.state.debtors.map((debtor, i) =>
+                <a href="#" className="pane-item -active" key={i}>
+                  <div className="info">
+                    <h4 className="title">{debtor.name}</h4>
+                    <h6 className="subtitle">15,629.00 to go</h6>
+                  </div>
+                </a>
+              )}
             </div>
           </aside>
 
