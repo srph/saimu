@@ -5,5 +5,5 @@
 // throughout the application.
 // ==================================================
 
-import browserHistory from 'react-router/lib/browserHistory';
-export default browserHistory;
+import history from 'react-router/lib/hashHistory';
+export default history;
