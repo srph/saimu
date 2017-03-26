@@ -92,7 +92,8 @@ export default class DebtorView extends React.Component {
         )}
 
         {this.props.children && cloneElement(this.props.children, {
-          debtor: debtor
+          debtor: debtor,
+          onCreate: this.handleCreate
         })}
       </div>
     );
@@ -100,5 +101,18 @@ export default class DebtorView extends React.Component {
 
   handleClick = () => {
     history.push(`/d/${this.state.debtor.id}/details`);
+  }
+
+  handleCreate = (data) => {
+    ipc.on('debts:create', (event, debt) => {
+      console.log(debt)
+      debt.created_at = new Date(debt.created_at)
+      this.setState({ debts: [...this.state.debts, debt] })
+    })
+
+    ipc.send('debts:create', {
+      ...data,
+      debtor_id: this.state.debtor.id,
+    })
   }
 }

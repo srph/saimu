@@ -5,6 +5,11 @@ import {Gateway} from 'react-gateway';
 import history from 'app/history';
 
 export default class HomeCreateView extends Component {
+  state = {
+    amount: '',
+    note: ''
+  }
+
   render() {
     return (
       <div>
@@ -22,26 +27,36 @@ export default class HomeCreateView extends Component {
             </div>
 
             <div className="body">
-              <div className="grid-row">
-                <div className="column u-size-6">
-                  <div className="form-group">
-                    <label>Amount</label>
-                    <input type="text" className="form-input" placeholder="23,253.00" />
+              <form onSubmit={this.handleSubmit}>
+                <div className="grid-row">
+                  <div className="column u-size-6">
+                    <div className="form-group">
+                      <label>Amount</label>
+                      <input value={this.state.amount}
+                        onChange={this.handleChange('amount')}
+                        type="text"
+                        className="form-input"
+                        placeholder="23,253.00" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="column u-size-6">
-                  <div className="form-group">
-                    <label>Note</label>
-                    <input type="text" className="form-input" placeholder="Any reminders?" />
+                  <div className="column u-size-6">
+                    <div className="form-group">
+                      <label>Note</label>
+                      <input value={this.state.note}
+                        onChange={this.handleChange('note')}
+                        type="text"
+                        className="form-input"
+                        placeholder="Any reminders?" />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
 
             <footer className="footer">
               <div className="u-clearfix">
-                <button className="button -primary -rounded -small u-pull-right">
+                <button onClick={this.handleCreate} type="button" className="button -primary -rounded -small u-pull-right">
                   New Record
                 </button>
               </div>
@@ -50,6 +65,23 @@ export default class HomeCreateView extends Component {
         </Gateway>
       </div>
     );
+  }
+
+  handleChange = (field) => {
+    return (evt) => {
+      this.setState({ [field]: evt.target.value })
+    }
+  }
+
+  handleSubmit = (evt) => {
+    evt.preventDefault()
+    this.handleCreate()
+  }
+
+  handleCreate = () => {
+    this.props.onCreate(this.state)
+    this.setState({ amount: '', note: '' })
+    this.handleClose()
   }
 
   handleClose = () => {
