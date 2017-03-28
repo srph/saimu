@@ -11,7 +11,7 @@ export default class AppView extends React.Component {
   }
 
   componentDidMount() {
-    ipc.on('debtors:get', (event, debtors) => {
+    ipc.once('debtors:get', (event, debtors) => {
       this.setState({ debtors, resolved: true })
     })
 

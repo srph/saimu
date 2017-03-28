@@ -17,7 +17,7 @@ export default class DebtorView extends React.Component {
   }
 
   componentDidMount() {
-    ipc.on('debts:get', (event, debts) => {
+    ipc.once('debts:get', (event, debts) => {
       this.setState({
         debts: debts.map(debt => {
           debt.created_at = new Date(debt.created_at)
