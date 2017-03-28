@@ -10,29 +10,17 @@ import Status from 'app/components/DebtStatus';
 
 export default class DebtorView extends React.Component {
   state = {
-    debtor: this.props.debtors
-      .find((debtor) => debtor.id === this.props.routeParams.id),
+    debtor: {},
     debts: [],
     resolved: false
   }
 
   componentDidMount() {
-    ipc.once('debts:get', (event, debts) => {
-      this.setState({
-        debts: debts.map(debt => {
-          debt.created_at = new Date(debt.created_at)
+    this.fetch()
+  }
 
-          debt.transactions.forEach((transaction) => {
-            transaction.created_at = new Date(transaction.created_at)
-          })
-
-          return debt
-        }),
-        resolved: true
-      })
-    })
-
-    ipc.send('debts:get', this.state.debtor.id)
+  componentWillReceiveProps(nextProps) {
+    this.fetch(nextProps)
   }
 
   render() {
@@ -109,6 +97,31 @@ export default class DebtorView extends React.Component {
         })}
       </div>
     );
+  }
+
+  fetch = (props = this.props) => {
+    const debtor = props.debtors
+      .find((debtor) => debtor.id === props.routeParams.id)
+
+    ipc.once('debts:get', (event, debts) => {
+      this.setState({
+        debtor,
+
+        debts: debts.map(debt => {
+          debt.created_at = new Date(debt.created_at)
+
+          debt.transactions.forEach((transaction) => {
+            transaction.created_at = new Date(transaction.created_at)
+          })
+
+          return debt
+        }),
+
+        resolved: true
+      })
+    })
+
+    ipc.send('debts:get', debtor.id)
   }
 
   handleClick = (id) => {
