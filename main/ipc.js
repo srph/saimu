@@ -17,7 +17,10 @@ ipc.on('debtors:get', (event) => {
 
 ipc.on('debtors:create', (event, data) => {
   let debtor = db.get('debtors')
-    .insert(data)
+    .insert({
+      name: data.name,
+      created_at: +new Date()
+    })
     .write()
 
   event.sender.send('debtors:create', debtor)

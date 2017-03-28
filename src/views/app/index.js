@@ -27,6 +27,20 @@ export default class AppView extends React.Component {
       <div>
         <div className="main-layout">
           <aside className="menu">
+            <div className="pane-heading">
+              <button className="action">
+                <i className="fa fa-cog" />
+              </button>
+
+              <h4 className="title">
+                Uomi
+              </h4>
+
+              <Link to="/d/create" className="action">
+                <i className="fa fa-plus" />
+              </Link>
+            </div>
+
             <form>
               <div className="pane-search">
                 <input type="text" className="input" placeholder="Search by name" />
@@ -50,11 +64,20 @@ export default class AppView extends React.Component {
 
           <div className="content">
             {cloneElement(this.props.children, {
-              debtors: this.state.debtors
+              debtors: this.state.debtors,
+              onCreateDebtor: this.handleCreateDebtor
             })}
           </div>
         </div>
       </div>
     );
+  }
+
+  handleCreateDebtor = (data) => {
+    this.setState({
+      debtors: [data, ...this.state.debtors]
+    })
+
+    history.push(`/d/${data.id}`)
   }
 }

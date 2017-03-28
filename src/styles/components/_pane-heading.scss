@@ -1,0 +1,21 @@
+.pane-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+
+  > .title {
+    color: $color-white;
+    margin-bottom: 0;
+  }
+
+  > .action {
+    display: inline-block;
+    padding: 0;
+    color: $color-primary;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: 0;
+  }
+}
