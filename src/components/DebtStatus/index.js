@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Status({debt}) {
+export default function DebtStatus({debt}) {
   if (!debt.transactions.length) {
     return <span className="tag-type -danger">
       Unpaid

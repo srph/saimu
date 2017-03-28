@@ -20,7 +20,7 @@ export default (
       <IndexRoute component={HomeView} />
       <Route path="d/:id" component={DebtorView}>
         <Route path="create" component={DebtorCreateView} />
-        <Route path="details" component={DebtorDetailsView} />
+        <Route path=":debtId/details" component={DebtorDetailsView} />
       </Route>
     </Route>
   </Route>

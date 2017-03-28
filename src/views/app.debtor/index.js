@@ -6,13 +6,14 @@ import groupBy from 'lodash/groupBy';
 import tinytime from 'tinytime';
 import numeral from 'numeral';
 import history from 'app/history';
-import Status from './Status';
+import Status from 'app/components/DebtStatus';
 
 export default class DebtorView extends React.Component {
   state = {
     debtor: this.props.debtors
       .find((debtor) => debtor.id === this.props.routeParams.id),
-    debts: []
+    debts: [],
+    resolved: false
   }
 
   componentDidMount() {
@@ -20,8 +21,14 @@ export default class DebtorView extends React.Component {
       this.setState({
         debts: debts.map(debt => {
           debt.created_at = new Date(debt.created_at)
+
+          debt.transactions.forEach((transaction) => {
+            transaction.created_at = new Date(transaction.created_at)
+          })
+
           return debt
-        })
+        }),
+        resolved: true
       })
     })
 
@@ -29,9 +36,13 @@ export default class DebtorView extends React.Component {
   }
 
   render() {
-    const {debtor, debts} = this.state;
+    const {debtor, debts, resolved} = this.state;
 
-    const years = groupBy(this.state.debts, (debt) => {
+    if (!resolved) {
+      return <div />
+    }
+
+    const years = groupBy(debts, (debt) => {
       return debt.created_at.getFullYear()
     })
 
@@ -70,7 +81,7 @@ export default class DebtorView extends React.Component {
 
               <tbody>
                 {years[year].map((debt, i) =>
-                  <tr onClick={this.handleClick} key={i}>
+                  <tr onClick={this.handleClick(debt.id)} key={i}>
                     <td>
                       <Status debt={debt} />
                     </td>
@@ -93,19 +104,21 @@ export default class DebtorView extends React.Component {
 
         {this.props.children && cloneElement(this.props.children, {
           debtor: debtor,
+          debts: debts,
           onCreate: this.handleCreate
         })}
       </div>
     );
   }
 
-  handleClick = () => {
-    history.push(`/d/${this.state.debtor.id}/details`);
+  handleClick = (id) => {
+    return () => {
+      history.push(`/d/${this.state.debtor.id}/${id}/details`)
+    }
   }
 
   handleCreate = (data) => {
     ipc.on('debts:create', (event, debt) => {
-      console.log(debt)
       debt.created_at = new Date(debt.created_at)
       this.setState({ debts: [...this.state.debts, debt] })
     })
