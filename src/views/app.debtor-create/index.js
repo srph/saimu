@@ -40,8 +40,6 @@ export default class DebtorCreateView extends Component {
       return
     }
 
-    console.log('Creating')
-
     ipc.once('debtors:create', (event, data) => {
       this.props.onCreateDebtor(data)
     })
