@@ -30,6 +30,10 @@
     @include button-variant($color-primary);
   }
 
+  &.-plain {
+    @include button-variant($color-gray-dark);
+  }
+
   &.-small {
     font-size: 12px;
     line-height: $form-size-small - 1px;

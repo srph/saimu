@@ -58,7 +58,12 @@ ipc.on('debts:create', (event, data) => {
 
 ipc.on('transactions:create', (event, data) => {
   let transaction = db.get('transactions')
-    .insert(data)
+    .insert({
+      debt_id: data.debt_id,
+      amount: parseInt(data.amount, 10),
+      note: data.note,
+      created_at: +new Date()
+    })
     .write()
 
   event.sender.send('transactions:create', transaction)

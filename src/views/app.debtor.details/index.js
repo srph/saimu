@@ -1,20 +1,31 @@
-import React, {Component} from 'react';
-import Helmet from 'react-helmet';
-import Modal from 'react-modal2';
-import {Gateway} from 'react-gateway';
-import tinytime from 'tinytime';
-import numeral from 'numeral';
-import history from 'app/history';
-import DebtStatus from 'app/components/DebtStatus';
+import React, {Component} from 'react'
+import {ipcRenderer as ipc} from 'electron';
+import Helmet from 'react-helmet'
+import Modal from 'react-modal2'
+import {Gateway} from 'react-gateway'
+import tinytime from 'tinytime'
+import numeral from 'numeral'
+import history from 'app/history'
+import DebtStatus from 'app/components/DebtStatus'
+import Remaining from './Remaining'
+import Create from './Create'
 
 export default class HomeDetailsView extends Component {
   state = {
-    debt: this.props.debts
-      .find((debt) => debt.id === this.props.routeParams.debtId)
+    debt: this.get(),
+    creating: false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.routeParams.debtId === nextProps.routeParams.debtId) {
+      this.setState({
+        debt: this.get(nextProps),
+      })
+    }
   }
 
   render() {
-    const {debt} = this.state;
+    const {debt, creating} = this.state;
 
     return (
       <div>
@@ -22,7 +33,7 @@ export default class HomeDetailsView extends Component {
 
         <Gateway into="modal">
           <Modal onClose={this.handleClose}
-            backdropClassName="modal-block"
+            backdropClassName="modal-block -medium"
             modalClassName="modal">
             <div className="heading">
               <span>View Record</span>
@@ -38,6 +49,7 @@ export default class HomeDetailsView extends Component {
                     <th>Amount</th>
                     <th>Date Added</th>
                     <th>Note</th>
+                    <th width="40">&nbsp;</th>
                   </tr>
                 </thead>
 
@@ -47,8 +59,11 @@ export default class HomeDetailsView extends Component {
                       <td>{transaction.amount}</td>
                       <td>{tinytime('{MMMM} {DD}').render(transaction.created_at)}</td>
                       <td>{transaction.note}</td>
+                      <td width="40">&nbsp;</td>
                     </tr>
                   )}
+
+                  {creating && <Create onCreate={this.handleStore} />}
                 </tbody>
               </table>
             </div>
@@ -64,9 +79,17 @@ export default class HomeDetailsView extends Component {
                 </div>
 
                 <div className="section">
-                  <button className="button -primary -rounded -small">
+                  {!creating && <button type="button"
+                    className="button -primary -rounded -small"
+                    onClick={this.handleCreate}>
                     New Transaction
-                  </button>
+                  </button>}
+
+                  {creating && <button type="button"
+                    className="button -plain -rounded -small"
+                    onClick={this.handleCreate}>
+                    Cancel Transaction
+                  </button>}
                 </div>
               </div>
             </footer>
@@ -76,23 +99,28 @@ export default class HomeDetailsView extends Component {
     );
   }
 
+  get(props = this.props) {
+    return props.debts.find((debt) => debt.id === this.props.routeParams.debtId)
+  }
+
+  handleCreate = () => {
+    this.setState({ creating: !this.state.creating })
+  }
+
+  handleStore = data => {
+    ipc.once('transactions:create', (event, data) => {
+      data.created_at = new Date(data.created_at)
+      this.props.onCreateTransaction(this.state.debt.id, data)
+      this.setState({ creating: false })
+    })
+
+    ipc.send('transactions:create', {
+      ...data,
+      debt_id: this.state.debt.id
+    })
+  }
+
   handleClose = () => {
     history.push(`/d/${this.props.debtor.id}`)
   }
-}
-
-function Remaining({debt}) {
-  const paid = debt.transactions
-    .map(transaction => transaction.amount)
-    .reduce((prev, next) => prev + next, 0)
-
-  if (!debt.transactions.length || paid >= debt.amount) {
-    return null;
-  }
-
-  return <span className="info">
-    {numeral(paid).format('0,0')}&nbsp;
-    <span className="highlight">Out Of</span>&nbsp;
-    {numeral(debt.amount).format('0,0')}
-  </span>
 }

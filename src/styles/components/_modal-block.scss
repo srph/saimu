@@ -38,4 +38,8 @@
     padding: 8px;
     background: $color-sub;
   }
+
+  &.-medium > .modal {
+    width: 600px;
+  }
 }

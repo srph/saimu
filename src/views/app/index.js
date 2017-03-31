@@ -65,7 +65,8 @@ export default class AppView extends React.Component {
           <div className="content">
             {cloneElement(this.props.children, {
               debtors: this.state.debtors,
-              onCreateDebtor: this.handleCreateDebtor
+              onCreateDebtor: this.handleCreateDebtor,
+              onCreateTransaction: this.handleCreateTransaction
             })}
           </div>
         </div>
