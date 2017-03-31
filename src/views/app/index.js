@@ -52,7 +52,7 @@ export default class AppView extends React.Component {
 
             <div className="main-pane">
               {this.state.debtors.map((debtor, i) =>
-                <Link to={`/d/${debtor.id}`} className="pane-item -active" key={i}>
+                <Link to={`/d/${debtor.id}`} className="pane-item" activeClassName="-active" key={i}>
                   <div className="info">
                     <h4 className="title">{debtor.name}</h4>
                     <h6 className="subtitle">15,629.00 to go</h6>
