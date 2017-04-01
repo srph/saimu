@@ -18,7 +18,7 @@ export default function debts(state = initial, action) {
     case 'debts:create.data': {
       return {
         ...state,
-        data: [...state.data, action.payload]
+        data: [...state.data, action.payload.data]
       }
     }
 

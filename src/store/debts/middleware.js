@@ -21,7 +21,14 @@ export default function debts(store) {
           const {data, debtorId} = action.payload
 
           ipc.once('debts:create', (event, data) => {
-            dispatch({ type: 'debts:create.data', payload: data })
+            dispatch({
+              type: 'debts:create.data',
+              payload: {
+                data,
+                debtorId
+              }
+            })
+
             history.push(`/d/${data.debtor_id}`)
           })
 

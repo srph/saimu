@@ -23,6 +23,19 @@ export default function debtors(state = initial, action) {
       }
     }
 
+    case 'debts:create.data': {
+      const {data, debtorId} = action.payload
+      const index = findIndex(state.data, { id: debtorId })
+
+      return {
+        ...state,
+        data: update(state.data, index, debtor => ({
+          ...debtor,
+          remaining: debtor.remaining + data.amount
+        })).slice()
+      }
+    }
+
     case 'transactions:create.data': {
       const {data, debtorId} = action.payload
       const index = findIndex(state.data, { id: debtorId })
