@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import Helmet from 'react-helmet';
 import Modal from 'react-modal2';
 import {Gateway} from 'react-gateway';
-import history from 'app/history';
+import {connect} from 'react-redux'
+import history from 'app/history'
 
-export default class HomeCreateView extends Component {
+class HomeCreateView extends Component {
   state = {
     amount: '',
     note: ''
@@ -79,12 +80,20 @@ export default class HomeCreateView extends Component {
   }
 
   handleCreate = () => {
-    this.props.onCreate(this.state)
-    this.setState({ amount: '', note: '' })
-    this.handleClose()
+    this.props.dispatch({
+      type: 'debts:create!',
+      payload: {
+        data: this.state,
+        debtorId: this.props.debtor.id
+      }
+    })
   }
 
   handleClose = () => {
     history.push(`/d/${this.props.debtor.id}`)
   }
 }
+
+export default connect(state => ({}), dispatch => ({
+  dispatch
+}))(HomeCreateView)

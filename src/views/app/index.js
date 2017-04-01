@@ -1,15 +1,12 @@
 import React, {cloneElement} from 'react'
-import {ipcRenderer as ipc} from 'electron'
 import Helmet from 'react-helmet'
 import {Link} from 'react-router'
-import history from 'app/history'
 import debounce from 'lodash/debounce'
+import {connect} from 'react-redux'
 import numeral from 'numeral'
 
-export default class AppView extends React.Component {
+class AppView extends React.Component {
   state = {
-    debtors: [],
-    resolved: false,
     query: '',
     search: ''
   }
@@ -17,23 +14,19 @@ export default class AppView extends React.Component {
   timeout = null
 
   componentDidMount() {
-    ipc.once('debtors:get', (event, debtors) => {
-      this.setState({ debtors, resolved: true })
-    })
-
-    ipc.send('debtors:get')
+    this.props.dispatch({ type: 'debtors:fetch!' })
   }
 
   render() {
-    if (!this.state.resolved) {
+    if (!this.props.resolved) {
       return <div />
     }
 
     const {query, search} = this.state
 
     const debtors = search.length
-      ? this.state.debtors.filter(debtor => ~debtor.name.toLowerCase().indexOf(search.toLowerCase()))
-      : this.state.debtors
+      ? this.props.debtors.filter(debtor => ~debtor.name.toLowerCase().indexOf(search.toLowerCase()))
+      : this.props.debtors
 
     return (
       <div>
@@ -82,8 +75,7 @@ export default class AppView extends React.Component {
 
           <div className="content">
             {cloneElement(this.props.children, {
-              debtors: this.state.debtors,
-              onCreateDebtor: this.handleCreateDebtor
+              debtors: this.state.debtors
             })}
           </div>
         </div>
@@ -102,12 +94,11 @@ export default class AppView extends React.Component {
       this.setState({ search: this.state.query })
     }, 600)
   }
-
-  handleCreateDebtor = data => {
-    this.setState({
-      debtors: [data, ...this.state.debtors]
-    })
-
-    history.push(`/d/${data.id}`)
-  }
 }
+
+export default connect(state => ({
+  debtors: state.debtors.data,
+  resolved: state.debtors.resolved
+}), dispatch => ({
+  dispatch
+}))(AppView)

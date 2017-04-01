@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import {ipcRenderer as ipc} from 'electron';
+import React, { Component } from 'react'
+import {connect} from 'react-redux'
 
-export default class DebtorCreateView extends Component {
+class DebtorCreateView extends Component {
   state = {
     name: ''
   }
@@ -40,12 +40,10 @@ export default class DebtorCreateView extends Component {
       return
     }
 
-    ipc.once('debtors:create', (event, data) => {
-      this.props.onCreateDebtor(data)
-    })
-
-    ipc.send('debtors:create', {
-      name: this.state.name
-    })
+    this.props.dispatch({ type: 'debtors:create!', payload: this.state })
   }
 }
+
+export default connect(state => state, dispatch => ({
+  dispatch
+}))(DebtorCreateView)

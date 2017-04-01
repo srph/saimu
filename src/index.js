@@ -17,6 +17,7 @@ ReactDOM.render(node, $target);
 if (process.env.NODE_ENV !== 'production') {
   window._APP_ = {
     history: require('./history').default,
-    ipc: require('electron').ipcRenderer
+    ipc: require('electron').ipcRenderer,
+    store: require('app/store').default
   };
 }

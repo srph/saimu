@@ -80,8 +80,6 @@ ipc.on('transactions:create', (event, data) => {
     .find({ id: data.debt_id })
     .value()
 
-  console.log(debt)
-
   db.get('debtors')
     .find({ id: debt.debtor_id })
     .update('remaining', remaining => Math.max(remaining - amount, 0))

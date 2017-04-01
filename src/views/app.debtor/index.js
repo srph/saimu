@@ -1,5 +1,5 @@
 import React, {PropTypes, cloneElement} from 'react';
-import {ipcRenderer as ipc} from 'electron';
+import {connect} from 'react-redux'
 import Helmet from 'react-helmet';
 import {Link} from 'react-router';
 import groupBy from 'lodash/groupBy';
@@ -7,24 +7,21 @@ import tinytime from 'tinytime';
 import numeral from 'numeral';
 import history from 'app/history';
 import Status from 'app/components/DebtStatus';
+import {mapTransform} from 'app/store/debts/selector'
 
-export default class DebtorView extends React.Component {
-  state = {
-    debtor: {},
-    debts: [],
-    resolved: false
-  }
-
+class DebtorView extends React.Component {
   componentDidMount() {
     this.fetch()
   }
 
   componentWillReceiveProps(nextProps) {
-    this.fetch(nextProps)
+    if (this.props.routeParams.id !== nextProps.routeParams.id) {
+      this.fetch(nextProps)
+    }
   }
 
   render() {
-    const {debtor, debts, resolved} = this.state;
+    const {debtor, debts, resolved} = this.props;
 
     if (!resolved) {
       return <div />
@@ -96,69 +93,31 @@ export default class DebtorView extends React.Component {
 
         {this.props.children && cloneElement(this.props.children, {
           debtor: debtor,
-          debts: debts,
-          onCreate: this.handleCreate,
-          onCreateTransaction: this.handleCreateTransaction
+          debts: debts
         })}
       </div>
     );
   }
 
   fetch = (props = this.props) => {
-    const debtor = props.debtors
-      .find((debtor) => debtor.id === props.routeParams.id)
-
-    ipc.once('debts:get', (event, debts) => {
-      this.setState({
-        debtor,
-
-        debts: debts.map(debt => {
-          debt.created_at = new Date(debt.created_at)
-
-          debt.transactions.forEach((transaction) => {
-            transaction.created_at = new Date(transaction.created_at)
-          })
-
-          return debt
-        }),
-
-        resolved: true
-      })
+    this.props.dispatch({
+      type: 'debts:fetch!',
+      payload: props.routeParams.id
     })
-
-    ipc.send('debts:get', debtor.id)
   }
 
   handleClick = (id) => {
     return () => {
-      history.push(`/d/${this.state.debtor.id}/${id}/details`)
+      history.push(`/d/${this.props.debtor.id}/${id}/details`)
     }
   }
-
-  handleCreate = (data) => {
-    ipc.on('debts:create', (event, debt) => {
-      debt.created_at = new Date(debt.created_at)
-      this.setState({ debts: [...this.state.debts, debt] })
-    })
-
-    ipc.send('debts:create', {
-      ...data,
-      debtor_id: this.state.debtor.id,
-    })
-  }
-
-  handleCreateTransaction = (debtId, data) => {
-    this.setState({
-      debts: this.state.debts.map(debt => {
-        if (debt.id === debtId) {
-          return {
-            ...debt,
-            transactions: [...debt.transactions, data]
-          }
-        }
-
-        return debt
-      })
-    })
-  }
 }
+
+export default connect((state, props) => ({
+  debtor: state.debtors.data
+    .find(debtor => debtor.id == props.routeParams.id),
+  debts: mapTransform(state.debts.data),
+  resolved: state.debts.resolved
+}), dispatch => ({
+  dispatch
+}))(DebtorView)

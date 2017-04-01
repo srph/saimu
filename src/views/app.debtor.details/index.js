@@ -1,31 +1,24 @@
 import React, {Component} from 'react'
-import {ipcRenderer as ipc} from 'electron';
+import {connect} from 'react-redux'
 import Helmet from 'react-helmet'
 import Modal from 'react-modal2'
 import {Gateway} from 'react-gateway'
 import tinytime from 'tinytime'
 import numeral from 'numeral'
 import history from 'app/history'
+import {transform} from 'app/store/debts/selector'
 import DebtStatus from 'app/components/DebtStatus'
 import Remaining from './Remaining'
 import Create from './Create'
 
-export default class HomeDetailsView extends Component {
+class HomeDetailsView extends Component {
   state = {
-    debt: this.get(),
     creating: false
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.routeParams.debtId === nextProps.routeParams.debtId) {
-      this.setState({
-        debt: this.get(nextProps),
-      })
-    }
-  }
-
   render() {
-    const {debt, creating} = this.state;
+    const {creating} = this.state
+    const {debt} = this.props
 
     return (
       <div>
@@ -99,28 +92,31 @@ export default class HomeDetailsView extends Component {
     );
   }
 
-  get(props = this.props) {
-    return props.debts.find((debt) => debt.id === this.props.routeParams.debtId)
-  }
-
   handleCreate = () => {
     this.setState({ creating: !this.state.creating })
   }
 
   handleStore = data => {
-    ipc.once('transactions:create', (event, data) => {
-      data.created_at = new Date(data.created_at)
-      this.props.onCreateTransaction(this.state.debt.id, data)
-      this.setState({ creating: false })
+    this.props.dispatch({
+      type: 'transactions:create!',
+      payload: {
+        data,
+        debtId: this.props.debt.id,
+        debtorId: this.props.debtor.id
+      }
     })
 
-    ipc.send('transactions:create', {
-      ...data,
-      debt_id: this.state.debt.id
-    })
+    this.setState({ creating: false })
   }
 
   handleClose = () => {
     history.push(`/d/${this.props.debtor.id}`)
   }
 }
+
+export default connect((state, props) => ({
+  debt: transform(state.debts.data
+    .find(debt => debt.id === props.routeParams.debtId))
+}), dispatch => ({
+  dispatch
+}))(HomeDetailsView)
