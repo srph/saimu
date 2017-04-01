@@ -1,6 +1,7 @@
-import React from 'react';
+import React from 'react'
+import c from 'classnames'
 
-export default function DebtStatus({debt}) {
+export default function DebtStatus({debt, tooltip = false}) {
   if (!debt.transactions.length) {
     return <span className="tag-type -danger">
       Unpaid
@@ -12,7 +13,7 @@ export default function DebtStatus({debt}) {
     .reduce((prev, next) => prev + next)
 
   if (paid < debt.amount) {
-    return <span className="tag-type">
+    return <span className={c('tag-type', { 'hint--right': tooltip })} aria-label={tooltip && `${paid} out of ${debt.amount}`}>
       Partial
     </span>
   }

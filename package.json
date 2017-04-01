@@ -19,6 +19,7 @@
     "cookie-machine": "^0.1.1",
     "electron": "^1.6.2",
     "font-awesome": "^4.7.0",
+    "hint.css": "^2.4.1",
     "history": "^2.1.2",
     "lodash": "^4.17.4",
     "lodash-id": "^0.14.0",

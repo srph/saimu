@@ -4,7 +4,7 @@
 
 html, body {
   font-size: $font-size-base;
-  font-family: 'Avenir', 'Avenir Next', 'Proxima Nova', San Francisco ,-apple-system, BlinkMacSystemFont, ".SFSNText-Regular", Segoe UI, Ubuntu, Helvetica, sans-serif;
+  font-family: $font-family;
 }
 
 h1 {

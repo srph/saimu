@@ -71,7 +71,7 @@ export default class DebtorView extends React.Component {
                 {years[year].map((debt, i) =>
                   <tr onClick={this.handleClick(debt.id)} key={i}>
                     <td>
-                      <Status debt={debt} />
+                      <Status debt={debt} tooltip />
                     </td>
                     <td>
                       {numeral(debt.amount).format('0,0,00')}
