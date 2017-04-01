@@ -19,6 +19,7 @@ ipc.on('debtors:create', (event, data) => {
   let debtor = db.get('debtors')
     .insert({
       name: data.name,
+      remaining: 0,
       created_at: +new Date()
     })
     .write()
@@ -42,10 +43,12 @@ ipc.on('debts:get', (event, id) => {
 });
 
 ipc.on('debts:create', (event, data) => {
-  let debt = db.get('debts')
+  const amount = parseInt(data.amount, 10)
+
+  const debt = db.get('debts')
     .insert({
       debtor_id: data.debtor_id,
-      amount: parseInt(data.amount, 10),
+      amount,
       note: data.note,
       created_at: +new Date()
     })
@@ -53,17 +56,35 @@ ipc.on('debts:create', (event, data) => {
 
   debt.transactions = []
 
+  db.get('debtors')
+    .find({ id: data.debtor_id })
+    .update('remaining', remaining => remaining + amount)
+    .write()
+
   event.sender.send('debts:create', debt)
 })
 
 ipc.on('transactions:create', (event, data) => {
-  let transaction = db.get('transactions')
+  const amount = parseInt(data.amount, 10)
+
+  const transaction = db.get('transactions')
     .insert({
       debt_id: data.debt_id,
-      amount: parseInt(data.amount, 10),
+      amount: amount,
       note: data.note,
       created_at: +new Date()
     })
+    .write()
+
+  const debt = db.get('debts')
+    .find({ id: data.debt_id })
+    .value()
+
+  console.log(debt)
+
+  db.get('debtors')
+    .find({ id: debt.debtor_id })
+    .update('remaining', remaining => Math.max(remaining - amount, 0))
     .write()
 
   event.sender.send('transactions:create', transaction)

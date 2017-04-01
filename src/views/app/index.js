@@ -3,6 +3,7 @@ import {ipcRenderer as ipc} from 'electron';
 import Helmet from 'react-helmet';
 import {Link} from 'react-router';
 import history from 'app/history';
+import numeral from 'numeral'
 
 export default class AppView extends React.Component {
   state = {
@@ -55,7 +56,11 @@ export default class AppView extends React.Component {
                 <Link to={`/d/${debtor.id}`} className="pane-item" activeClassName="-active" key={i}>
                   <div className="info">
                     <h4 className="title">{debtor.name}</h4>
-                    <h6 className="subtitle">15,629.00 to go</h6>
+                    <h6 className="subtitle">
+                      {debtor.remaining === 0
+                        ? <span><i className="fa fa-check" /> Paid Up!</span>
+                        : <span>{numeral(debtor.remaining).format('0,0')} to go</span>}
+                    </h6>
                   </div>
                 </Link>
               )}

@@ -41,7 +41,11 @@ export default class DebtorView extends React.Component {
         <div className="main-content-menu">
           <div className="heading">
             <h2 className="title">{debtor.name}</h2>
-            <h4 className="sub">2,739.00</h4>
+            <h4 className="sub">
+              {debtor.remaining === 0
+                ? <span><i className="fa fa-check u-text-success" /> Paid Up!</span>
+                : numeral(debtor.remaining).format('0,0')}
+            </h4>
           </div>
 
           <Link to={`/d/${debtor.id}/create`} className="button -primary -rounded">
