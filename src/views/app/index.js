@@ -1,15 +1,20 @@
-import React, {cloneElement} from 'react';
-import {ipcRenderer as ipc} from 'electron';
-import Helmet from 'react-helmet';
-import {Link} from 'react-router';
-import history from 'app/history';
+import React, {cloneElement} from 'react'
+import {ipcRenderer as ipc} from 'electron'
+import Helmet from 'react-helmet'
+import {Link} from 'react-router'
+import history from 'app/history'
+import debounce from 'lodash/debounce'
 import numeral from 'numeral'
 
 export default class AppView extends React.Component {
   state = {
     debtors: [],
-    resolved: false
+    resolved: false,
+    query: '',
+    search: ''
   }
+
+  timeout = null
 
   componentDidMount() {
     ipc.once('debtors:get', (event, debtors) => {
@@ -23,6 +28,12 @@ export default class AppView extends React.Component {
     if (!this.state.resolved) {
       return <div />
     }
+
+    const {query, search} = this.state
+
+    const debtors = search.length
+      ? this.state.debtors.filter(debtor => ~debtor.name.toLowerCase().indexOf(search.toLowerCase()))
+      : this.state.debtors
 
     return (
       <div>
@@ -42,17 +53,19 @@ export default class AppView extends React.Component {
               </Link>
             </div>
 
-            <form>
-              <div className="pane-search">
-                <input type="text" className="input" placeholder="Search by name" />
-                <button className="submit">
-                  <i className="fa fa-search" />
-                </button>
-              </div>
-            </form>
+            <div className="pane-search">
+              <input value={query}
+                onChange={this.handleSearch}
+                type="text"
+                className="input"
+                placeholder="Search by name" />
+              <button className="submit">
+                <i className="fa fa-search" />
+              </button>
+            </div>
 
             <div className="main-pane">
-              {this.state.debtors.map((debtor, i) =>
+              {debtors.map((debtor, i) =>
                 <Link to={`/d/${debtor.id}`} className="pane-item" activeClassName="-active" key={i}>
                   <div className="info">
                     <h4 className="title">{debtor.name}</h4>
@@ -78,7 +91,19 @@ export default class AppView extends React.Component {
     );
   }
 
-  handleCreateDebtor = (data) => {
+  handleSearch = evt => {
+    this.setState({ query: evt.target.value })
+
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+    }
+
+    setTimeout(() => {
+      this.setState({ search: this.state.query })
+    }, 600)
+  }
+
+  handleCreateDebtor = data => {
     this.setState({
       debtors: [data, ...this.state.debtors]
     })
