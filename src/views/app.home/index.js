@@ -7,7 +7,19 @@ export default class HomeView extends React.Component {
   render() {
     return (
       <div>
-        <Helmet title="Home" />
+        <Helmet title="Select a debtor" />
+
+        <div className="empty-state">
+          <img src="img/nerd.svg" className="symbol" />
+
+          <h5 className="main">
+            Debtor who?!
+          </h5>
+
+          <h2 className="sub">
+            You haven't selected a debtor yet!
+          </h2>
+        </div>
       </div>
     );
   }

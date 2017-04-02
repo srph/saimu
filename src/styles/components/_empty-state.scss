@@ -1,0 +1,21 @@
+.empty-state {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  text-align: center;
+
+  > .symbol {
+    margin-bottom: 32px;
+  }
+
+  > .main {
+    text-transform: uppercase;
+  }
+
+  > .sub {
+    color: $color-gray;
+    font-weight: 300;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+}
