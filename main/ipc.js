@@ -32,12 +32,12 @@ ipc.on('debts:get', (event, id) => {
   const debts = db.get('debts')
     .filter({ debtor_id: id })
     .value()
-
-  debts.forEach(debt => {
-    debt.transactions = db.get('transactions')
-      .filter({ debt_id: debt.id })
-      .value()
-  })
+    .map(debt => ({
+      ...debt,
+      transactions: db.get('transactions')
+        .filter({ debt_id: debt.id })
+        .value()
+    }))
 
   event.sender.send('debts:get', debts)
 });
@@ -54,14 +54,15 @@ ipc.on('debts:create', (event, data) => {
     })
     .write()
 
-  debt.transactions = []
-
   db.get('debtors')
     .find({ id: data.debtor_id })
     .update('remaining', remaining => remaining + amount)
     .write()
 
-  event.sender.send('debts:create', debt)
+  event.sender.send('debts:create', {
+    ...debt,
+    transactions: []
+  })
 })
 
 ipc.on('transactions:create', (event, data) => {
