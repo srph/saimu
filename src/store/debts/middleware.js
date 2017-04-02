@@ -1,10 +1,11 @@
 import {ipcRenderer as ipc} from 'electron'
 import history from 'app/history'
+import {toast} from 'app/store/toast/module'
 
-export default function debts(store) {
-  return (dispatch) => {
+export default function debts({dispatch}) {
+  return (next) => {
     return (action) => {
-      const result = dispatch(action)
+      const result = next(action)
 
       switch(action.type) {
         case 'debts:fetch!': {
@@ -29,6 +30,7 @@ export default function debts(store) {
               }
             })
 
+            dispatch(toast('A new debt was added'))
             history.push(`/d/${data.debtor_id}`)
           })
 
@@ -52,6 +54,8 @@ export default function debts(store) {
                 debtorId: payload.debtorId,
               }
             })
+
+            dispatch(toast('A new debt transaction was added'))
           })
 
           ipc.send('transactions:create', {

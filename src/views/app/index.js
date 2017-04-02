@@ -1,9 +1,10 @@
 import React, {cloneElement} from 'react'
 import Helmet from 'react-helmet'
 import {Link} from 'react-router'
-import debounce from 'lodash/debounce'
 import {connect} from 'react-redux'
+import debounce from 'lodash/debounce'
 import numeral from 'numeral'
+import Toast from './Toast'
 
 class AppView extends React.Component {
   state = {
@@ -79,6 +80,8 @@ class AppView extends React.Component {
             })}
           </div>
         </div>
+
+        <Toast />
       </div>
     );
   }

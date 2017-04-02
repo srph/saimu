@@ -1,10 +1,11 @@
 import {ipcRenderer as ipc} from 'electron'
 import history from 'app/history'
+import {toast} from 'app/store/toast/module'
 
-export default function debtors(store) {
-  return (dispatch) => {
+export default function debtors({dispatch}) {
+  return (next) => {
     return (action) => {
-      const result = dispatch(action)
+      const result = next(action)
 
       switch(action.type) {
         case 'debtors:fetch!': {
@@ -19,6 +20,8 @@ export default function debtors(store) {
 
         case 'debtors:create!': {
           ipc.once('debtors:create', (event, data) => {
+            console.log(toast('The debtor was successfully registered'), dispatch)
+            dispatch(toast('The debtor was successfully registered'))
             dispatch({ type: 'debtors:create.data', payload: data })
             history.push(`/d/${data.id}`)
           })

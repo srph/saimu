@@ -1,0 +1,43 @@
+.toast-float {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  pointer-events: none;
+
+  > .item {
+    display: inline-block;
+    padding: 16px;
+    font-size: $font-size-h5;
+    color: $color-white;
+    background: lighten($color-black, 20%);
+    border-radius: $border-radius;
+  }
+
+  > .item:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  > .item.-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  > .item.-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: 0.3s all ease;
+  }
+
+  > .item.-leave {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  > .item.-leave-active {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: 0.3s all ease;
+  }
+}

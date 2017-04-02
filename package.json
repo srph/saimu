@@ -26,6 +26,7 @@
     "lowdb": "^0.16.0",
     "numeral": "^2.0.5",
     "react": "^15.3.2",
+    "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.3.2",
     "react-gateway": "^2.6.0",
     "react-helmet": "^2.1.1",
@@ -36,7 +37,8 @@
     "react-router-scroll": "^0.3.2",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0",
-    "tinytime": "^0.2.5"
+    "tinytime": "^0.2.5",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
