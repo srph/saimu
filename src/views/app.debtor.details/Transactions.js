@@ -5,7 +5,7 @@ import numeral from 'numeral'
 import Create from './Create'
 
 function Transactions({transactions, creating, onCreate}) {
-  if (!transactions.length) {
+  if (!transactions.length && !creating) {
     return (
       <div className="empty-state -full">
         <div className="symbol">
