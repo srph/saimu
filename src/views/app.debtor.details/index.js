@@ -3,13 +3,11 @@ import {connect} from 'react-redux'
 import Helmet from 'react-helmet'
 import Modal from 'react-modal2'
 import {Gateway} from 'react-gateway'
-import tinytime from 'tinytime'
-import numeral from 'numeral'
 import history from 'app/history'
 import {transform, getById} from 'app/store/debts/selector'
 import DebtStatus from 'app/components/DebtStatus'
+import Transactions from './Transactions'
 import Remaining from './Remaining'
-import Create from './Create'
 
 class HomeDetailsView extends Component {
   state = {
@@ -36,29 +34,9 @@ class HomeDetailsView extends Component {
             </div>
 
             <div className="body">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Amount</th>
-                    <th>Date Added</th>
-                    <th>Note</th>
-                    <th width="40">&nbsp;</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {debt.transactions.map((transaction, i) =>
-                    <tr key={i}>
-                      <td>{numeral(transaction.amount).format('0,0')}</td>
-                      <td>{tinytime('{MMMM} {DD}').render(transaction.created_at)}</td>
-                      <td>{transaction.note}</td>
-                      <td width="40">&nbsp;</td>
-                    </tr>
-                  )}
-
-                  {creating && <Create onCreate={this.handleStore} />}
-                </tbody>
-              </table>
+              <Transactions transactions={debt.transactions}
+                creating={creating}
+                onCreate={this.handleStore} />
             </div>
 
             <footer className="footer">
