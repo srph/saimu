@@ -58,7 +58,7 @@ class AppView extends React.Component {
               </button>
             </div>
 
-            <div className="main-pane">
+            <div className="inner">
               {debtors.map((debtor, i) =>
                 <Link to={`/d/${debtor.id}`} className="pane-item" activeClassName="-active" key={i}>
                   <div className="info">
