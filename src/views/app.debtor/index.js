@@ -2,12 +2,11 @@ import React, {PropTypes, cloneElement} from 'react';
 import {connect} from 'react-redux'
 import Helmet from 'react-helmet';
 import {Link} from 'react-router';
-import groupBy from 'lodash/groupBy';
 import tinytime from 'tinytime';
 import numeral from 'numeral';
 import history from 'app/history';
 import Status from 'app/components/DebtStatus';
-import {mapTransform} from 'app/store/debts/selector'
+import {mapTransform, groupByYear} from 'app/store/debts/selector'
 
 class DebtorView extends React.Component {
   componentDidMount() {
@@ -21,15 +20,11 @@ class DebtorView extends React.Component {
   }
 
   render() {
-    const {debtor, debts, resolved} = this.props;
+    const {debtor, years, resolved} = this.props;
 
     if (!resolved) {
       return <div />
     }
-
-    const years = groupBy(debts, (debt) => {
-      return debt.created_at.getFullYear()
-    })
 
     return (
       <div>
@@ -92,8 +87,7 @@ class DebtorView extends React.Component {
         )}
 
         {this.props.children && cloneElement(this.props.children, {
-          debtor: debtor,
-          debts: debts
+          debtor: debtor
         })}
       </div>
     );
@@ -116,7 +110,7 @@ class DebtorView extends React.Component {
 export default connect((state, props) => ({
   debtor: state.debtors.data
     .find(debtor => debtor.id == props.routeParams.id),
-  debts: mapTransform(state.debts.data),
+  years: groupByYear(mapTransform(state.debts.data)),
   resolved: state.debts.resolved
 }), dispatch => ({
   dispatch
