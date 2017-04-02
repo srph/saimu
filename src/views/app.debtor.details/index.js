@@ -71,7 +71,7 @@ class HomeDetailsView extends Component {
                   </div>
                 </div>
 
-                <div className="section">
+                {!debt.isPaid && <div className="section">
                   {!creating && <button type="button"
                     className="button -primary -rounded -small"
                     onClick={this.handleCreate}>
@@ -83,7 +83,7 @@ class HomeDetailsView extends Component {
                     onClick={this.handleCreate}>
                     Cancel Transaction
                   </button>}
-                </div>
+                </div>}
               </div>
             </footer>
           </Modal>
