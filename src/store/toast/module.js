@@ -6,8 +6,6 @@ const init = {
 export default function reducer(state = init, action) {
   switch (action.type) {
     case 'toast:emit.data': {
-      console.log(action.payload)
-      
       return {
         ...state,
         id: state.id + 1,
