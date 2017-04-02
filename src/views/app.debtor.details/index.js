@@ -18,11 +18,11 @@ class HomeDetailsView extends Component {
 
   render() {
     const {creating} = this.state
-    const {debt} = this.props
+    const {debt, debtor} = this.props
 
     return (
       <div>
-        <Helmet title="View Record" />
+        <Helmet title={`View Debt of ${debtor.name}`} />
 
         <Gateway into="modal">
           <Modal onClose={this.handleClose}
