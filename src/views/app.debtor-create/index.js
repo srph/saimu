@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Helmet from 'react-helmet'
 import {connect} from 'react-redux'
 
 class DebtorCreateView extends Component {
@@ -9,6 +10,8 @@ class DebtorCreateView extends Component {
   render() {
     return (
       <div>
+        <Helmet title="Create New Debtor" />
+        
         <form onSubmit={this.handleSubmit}>
           <div className="main-content-menu">
             <div className="heading">
