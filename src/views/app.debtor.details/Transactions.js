@@ -7,10 +7,10 @@ import Create from './Create'
 function Transactions({transactions, creating, onCreate}) {
   if (!transactions.length && !creating) {
     return (
-      <div className="empty-state -full">
+      <div className="empty-state -full -danger">
         <div className="symbol">
           <div className="icon">
-            <i className="fa fa-thumbs-o-up" />
+            <i className="fa fa-file-o" />
           </div>
         </div>
 

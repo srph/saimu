@@ -39,4 +39,8 @@
   &.-full > .sub {
     width: 100%;
   }
+
+  &.-danger > .symbol > .icon {
+    background: $color-danger;
+  }
 }
