@@ -14,7 +14,7 @@ class HomeCreateView extends Component {
   render() {
     return (
       <div>
-        <Helmet title="New Record for John Doe" />
+        <Helmet title={`New Debt for ${this.props.debtor.name}`} />
 
         <Gateway into="modal">
           <Modal onClose={this.handleClose}
