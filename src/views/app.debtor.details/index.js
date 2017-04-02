@@ -49,7 +49,7 @@ class HomeDetailsView extends Component {
                 <tbody>
                   {debt.transactions.map((transaction, i) =>
                     <tr key={i}>
-                      <td>{transaction.amount}</td>
+                      <td>{numeral(transaction.amount).format('0,0')}</td>
                       <td>{tinytime('{MMMM} {DD}').render(transaction.created_at)}</td>
                       <td>{transaction.note}</td>
                       <td width="40">&nbsp;</td>
