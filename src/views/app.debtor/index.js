@@ -2,11 +2,10 @@ import React, {PropTypes, cloneElement} from 'react';
 import {connect} from 'react-redux'
 import Helmet from 'react-helmet';
 import {Link} from 'react-router';
-import tinytime from 'tinytime';
-import numeral from 'numeral';
+import numeral from 'numeral'
 import history from 'app/history';
-import Status from 'app/components/DebtStatus';
 import {mapTransform, groupByYear} from 'app/store/debts/selector'
+import Debtors from './Debtors'
 
 class DebtorView extends React.Component {
   componentDidMount() {
@@ -34,9 +33,7 @@ class DebtorView extends React.Component {
           <div className="heading">
             <h2 className="title">{debtor.name}</h2>
             <h4 className="sub">
-              {debtor.remaining === 0
-                ? <span><i className="fa fa-check u-text-success" /> Paid Up!</span>
-                : numeral(debtor.remaining).format('0,0')}
+              {debtor.remaining > 0 ? numeral(debtor.remaining).format('0,0') : null}
             </h4>
           </div>
 
@@ -46,45 +43,7 @@ class DebtorView extends React.Component {
         </div>
 
 
-        {Object.keys(years).map((year, i) =>
-          <div className="main-content-section" key={i}>
-            <h4 className="heading">
-              2017
-            </h4>
-
-            <table className="table -clickable">
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Amount</th>
-                  <th>Date Added</th>
-                  <th>Note</th>
-                  <th>&nbsp;</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {years[year].map((debt, i) =>
-                  <tr onClick={this.handleClick(debt.id)} key={i}>
-                    <td>
-                      <Status debt={debt} tooltip />
-                    </td>
-                    <td>
-                      {numeral(debt.amount).format('0,0,00')}
-                    </td>
-                    <td>
-                      {tinytime('{MMMM} {DD}').render(debt.created_at)}
-                    </td>
-                    <td>
-                      {debt.note}
-                    </td>
-                    <td>&nbsp;</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <Debtors years={years} onClick={this.handleClick} />
 
         {this.props.children && cloneElement(this.props.children, {
           debtor: debtor
@@ -101,9 +60,7 @@ class DebtorView extends React.Component {
   }
 
   handleClick = (id) => {
-    return () => {
-      history.push(`/d/${this.props.debtor.id}/${id}/details`)
-    }
+    history.push(`/d/${this.props.debtor.id}/${id}/details`)
   }
 }
 
