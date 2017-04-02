@@ -6,7 +6,7 @@ import {Gateway} from 'react-gateway'
 import tinytime from 'tinytime'
 import numeral from 'numeral'
 import history from 'app/history'
-import {transform} from 'app/store/debts/selector'
+import {transform, getById} from 'app/store/debts/selector'
 import DebtStatus from 'app/components/DebtStatus'
 import Remaining from './Remaining'
 import Create from './Create'
@@ -115,8 +115,9 @@ class HomeDetailsView extends Component {
 }
 
 export default connect((state, props) => ({
-  debt: transform(state.debts.data
-    .find(debt => debt.id === props.routeParams.debtId))
+  debt: transform(
+    getById(state.debts.data, props.routeParams.debtId)
+  )
 }), dispatch => ({
   dispatch
 }))(HomeDetailsView)
