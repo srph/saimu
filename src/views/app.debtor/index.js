@@ -41,7 +41,7 @@ class DebtorView extends React.Component {
           </div>
 
           <Link to={`/d/${debtor.id}/create`} className="button -primary -rounded">
-            New Record
+            New Debt
           </Link>
         </div>
 
