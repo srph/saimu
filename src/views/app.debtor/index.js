@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 import numeral from 'numeral'
 import history from 'app/history';
 import {mapTransform, groupByYear} from 'app/store/debts/selector'
-import Debtors from './Debtors'
+import Debts from './Debts'
 
 class DebtorView extends React.Component {
   componentDidMount() {
@@ -42,7 +42,7 @@ class DebtorView extends React.Component {
           </Link>
         </div>
 
-        <Debtors
+        <Debts
           debtor={debtor}
           years={years}
           onClick={this.handleClick} />

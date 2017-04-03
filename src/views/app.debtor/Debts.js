@@ -4,7 +4,7 @@ import numeral from 'numeral'
 import history from 'app/history'
 import Status from 'app/components/DebtStatus'
 
-function Debtors({debtor, years, onClick}) {
+function Debts({debtor, years, onClick}) {
   const keys = Object.keys(years)
 
   if (!keys.length) {
@@ -75,4 +75,4 @@ function Debtors({debtor, years, onClick}) {
   )
 }
 
-export default Debtors
+export default Debts
