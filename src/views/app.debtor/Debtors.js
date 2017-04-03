@@ -4,12 +4,15 @@ import numeral from 'numeral'
 import history from 'app/history'
 import Status from 'app/components/DebtStatus'
 
-function Debtors({years, onClick}) {
+function Debtors({debtor, years, onClick}) {
   const keys = Object.keys(years)
 
   if (!keys.length) {
+    // We'll assign the debtor's id so that we can force
+    // an animation when viewing another debtor. Otherwise,
+    // React diffs it as same.
     return (
-      <div className="empty-state">
+      <div className="empty-state t-fade-in-late" key={debtor.id}>
         <div className="symbol">
           <div className="icon">
             <i className="fa fa-star-o" />
@@ -28,7 +31,7 @@ function Debtors({years, onClick}) {
   }
 
   return (
-    <div>
+    <div className="t-fade-in-late" key={debtor.id}>
       {keys.map((year, i) =>
         <div className="main-content-section" key={i}>
           <h4 className="heading">

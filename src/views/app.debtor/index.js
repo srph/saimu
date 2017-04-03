@@ -42,8 +42,10 @@ class DebtorView extends React.Component {
           </Link>
         </div>
 
-
-        <Debtors years={years} onClick={this.handleClick} />
+        <Debtors
+          debtor={debtor}
+          years={years}
+          onClick={this.handleClick} />
 
         {this.props.children && cloneElement(this.props.children, {
           debtor: debtor

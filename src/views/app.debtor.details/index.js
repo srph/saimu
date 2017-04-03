@@ -25,7 +25,7 @@ class HomeDetailsView extends Component {
         <Gateway into="modal">
           <Modal onClose={this.handleClose}
             backdropClassName="modal-block -medium"
-            modalClassName="modal">
+            modalClassName="modal t-pop-in">
             <div className="heading">
               <span>View Record</span>
               <button className="close" tabIndex="-1" onClick={this.handleClose}>

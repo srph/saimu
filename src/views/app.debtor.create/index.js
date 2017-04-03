@@ -19,7 +19,7 @@ class HomeCreateView extends Component {
         <Gateway into="modal">
           <Modal onClose={this.handleClose}
             backdropClassName="modal-block"
-            modalClassName="modal">
+            modalClassName="modal t-pop-in">
             <div className="heading">
               <span>Create New Record</span>
               <button className="close" tabIndex="-1" onClick={this.handleClose}>

@@ -9,9 +9,9 @@ class DebtorCreateView extends Component {
 
   render() {
     return (
-      <div>
+      <div className="t-pop-in">
         <Helmet title="Create New Debtor" />
-        
+
         <form onSubmit={this.handleSubmit}>
           <div className="main-content-menu">
             <div className="heading">
