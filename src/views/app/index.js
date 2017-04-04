@@ -10,7 +10,8 @@ import Toast from './Toast'
 class AppView extends React.Component {
   state = {
     query: '',
-    search: ''
+    search: '',
+    filter: '0'
   }
 
   timeout = null
@@ -24,11 +25,21 @@ class AppView extends React.Component {
       return <div />
     }
 
-    const {query, search} = this.state
+    const {query, search, filter} = this.state
 
     const debtors = search.length
-      ? this.props.debtors.filter(debtor => ~debtor.name.toLowerCase().indexOf(search.toLowerCase()))
+      ? this.props.debtors.filter(debtor => {
+        return ~debtor.name.toLowerCase().indexOf(search.toLowerCase())
+      })
       : this.props.debtors
+
+    const filtered = filter !== '0'
+      ? debtors.filter(debtor => {
+          return filter === '1'
+            ? debtor.remaining === 0
+            : debtor.remaining > 0
+        })
+      : debtors
 
     return (
       <div>
@@ -54,13 +65,24 @@ class AppView extends React.Component {
                 type="text"
                 className="input"
                 placeholder="Search by name" />
+
+              <select
+                value={filter}
+                onChange={this.handleSelect}
+                className="filter"
+                dir="rtl">
+                <option value="0">All</option>
+                <option value="1">Paid</option>
+                <option value="2">Unpaid</option>
+              </select>
+
               <button className="submit">
                 <i className="fa fa-search" />
               </button>
             </div>
 
             <div className="inner">
-              {debtors.map((debtor, i) =>
+              {filtered.map((debtor, i) =>
                 <Link to={`/d/${debtor.id}`} className="pane-item" activeClassName="-active" key={i}>
                   <div className="info">
                     <h4 className="title">{debtor.name}</h4>
@@ -85,6 +107,10 @@ class AppView extends React.Component {
         <Toast />
       </div>
     );
+  }
+
+  handleSelect = evt => {
+    this.setState({ filter: evt.target.value })
   }
 
   handleSearch = evt => {

@@ -17,6 +17,22 @@
     outline: 0;
   }
 
+  > .filter {
+    height: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
+    color: $color-primary;
+    font-weight: bold;
+    font-size: 12px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+
   > .submit {
     @include plain-button;
     margin-left: auto;
