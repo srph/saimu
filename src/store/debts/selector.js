@@ -33,3 +33,16 @@ export function groupByYear(debts) {
 export function getById(debts, id) {
   return debts.find(debt => debt.id === id)
 }
+
+export function filter(debts, filter) {
+  switch(Number(filter)) {
+    case 1:
+      return debts.filter(debt => debt.isPaid)
+    case 2:
+      return debts.filter(debt => debt.isPartial)
+    case 3:
+      return debts.filter(debt => debt.isUntouched)
+  }
+
+  return debts
+}

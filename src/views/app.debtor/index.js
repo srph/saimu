@@ -4,8 +4,9 @@ import Helmet from 'react-helmet';
 import {Link} from 'react-router';
 import numeral from 'numeral'
 import history from 'app/history';
-import {mapTransform, groupByYear} from 'app/store/debts/selector'
+import {mapTransform, groupByYear, filter} from 'app/store/debts/selector'
 import Debts from './Debts'
+import TabFilter from './TabFilter'
 
 class DebtorView extends React.Component {
   componentDidMount() {
@@ -42,6 +43,8 @@ class DebtorView extends React.Component {
           </Link>
         </div>
 
+        <TabFilter />
+
         <Debts
           debtor={debtor}
           years={years}
@@ -69,7 +72,9 @@ class DebtorView extends React.Component {
 export default connect((state, props) => ({
   debtor: state.debtors.data
     .find(debtor => debtor.id == props.routeParams.id),
-  years: groupByYear(mapTransform(state.debts.data)),
+  years: groupByYear(
+    filter(mapTransform(state.debts.data), props.location.query.type)
+  ),
   resolved: state.debts.resolved
 }), dispatch => ({
   dispatch

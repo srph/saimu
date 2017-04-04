@@ -1,0 +1,16 @@
+.tab-nav {
+  border-bottom: 1px solid $color-gray;
+
+  > a {
+    display: inline-block;
+    margin-bottom: -2px;
+    color: $color-black;
+    padding: 16px;
+    border-bottom: 2px solid transparent;
+  }
+
+  > a.-active {
+    font-weight: bold;
+    border-bottom-color: $color-primary;
+  }
+}
