@@ -30,7 +30,7 @@ export default {
   // App-related configuration
   // ==============================
   app: {
-    title: 'Saimu',
+    title: 'Uomi',
 
     meta: {
       description: '',
