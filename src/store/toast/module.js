@@ -16,7 +16,7 @@ export default function reducer(state = init, action) {
     case 'toast:remove': {
       return {
         ...state,
-        data: state.data.filter(item => item.id === action.payload)
+        data: state.data.filter(item => item.id !== action.payload)
       }
     }
   }
