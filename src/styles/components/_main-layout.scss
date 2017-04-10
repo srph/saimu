@@ -1,13 +1,16 @@
 .main-layout {
-  display: flex;
-
   > .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
     width: 300px;
     background: $color-sub;
+    z-index: $zindex-layout-sidebar;
   }
 
   > .menu > .inner {
@@ -17,6 +20,7 @@
 
   > .content {
     padding: 24px;
+    padding-left: 324px;
     width: 100%;
     background: $color-white;
   }
