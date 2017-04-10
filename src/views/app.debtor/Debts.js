@@ -4,13 +4,22 @@ import numeral from 'numeral'
 import history from 'app/history'
 import Status from 'app/components/DebtStatus'
 
-function Debts({debtor, years, onClick}) {
+function Debts({debtor, years, filter, onClick}) {
   const keys = Object.keys(years)
 
   if (!keys.length) {
     // We'll assign the debtor's id so that we can force
     // an animation when viewing another debtor. Otherwise,
     // React diffs it as same.
+    let w = (() => {
+      switch(Number(filter)) {
+        case 1: return 'paid'
+        case 2: return 'partial'
+        case 3: return 'unpaid'
+        default: return 'recorded'
+      }
+    })()
+
     return (
       <div className="empty-state t-fade-in-late" key={debtor.id}>
         <div className="symbol">
@@ -24,7 +33,7 @@ function Debts({debtor, years, onClick}) {
         </h5>
 
         <h2 className="sub">
-          This debtor doesn't have any recorded debts yet!
+          This debtor doesn't have any {w} debts{!filter ? ' yet!' : '.'}
         </h2>
       </div>
     )

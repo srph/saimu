@@ -48,6 +48,7 @@ class DebtorView extends React.Component {
         <Debts
           debtor={debtor}
           years={years}
+          filter={this.props.location.query.type}
           onClick={this.handleClick} />
 
         {this.props.children && cloneElement(this.props.children, {
