@@ -4,6 +4,7 @@ import Modal from 'react-modal2';
 import {Gateway} from 'react-gateway';
 import {connect} from 'react-redux'
 import history from 'app/history'
+import FormGroup from 'app/components/FormGroup';
 
 class HomeCreateView extends Component {
   state = {
@@ -12,9 +13,11 @@ class HomeCreateView extends Component {
   }
 
   render() {
+    const {debtor, errors} = this.props
+    
     return (
       <div>
-        <Helmet title={`New Debt for ${this.props.debtor.name}`} />
+        <Helmet title={`New Debt for ${debtor.name}`} />
 
         <Gateway into="modal">
           <Modal onClose={this.handleClose}
@@ -31,25 +34,26 @@ class HomeCreateView extends Component {
               <form onSubmit={this.handleSubmit}>
                 <div className="grid-row">
                   <div className="column u-size-6">
-                    <div className="form-group">
-                      <label>Amount</label>
-                      <input value={this.state.amount}
+                    <FormGroup
+                      label="Amount"
+                      errors={errors.amount}
+                      input={<input value={this.state.amount}
                         onChange={this.handleChange('amount')}
                         type="text"
                         className="form-input"
                         placeholder="23,253.00" />
-                    </div>
+                      } />
                   </div>
 
                   <div className="column u-size-6">
-                    <div className="form-group">
-                      <label>Note</label>
-                      <input value={this.state.note}
+                    <FormGroup
+                      label="Note"
+                      input={<input value={this.state.note}
                         onChange={this.handleChange('note')}
                         type="text"
                         className="form-input"
                         placeholder="Any reminders?" />
-                    </div>
+                      } />
                   </div>
                 </div>
               </form>
@@ -94,6 +98,8 @@ class HomeCreateView extends Component {
   }
 }
 
-export default connect(state => ({}), dispatch => ({
+export default connect(state => ({
+  errors: state.debts.errors
+}), dispatch => ({
   dispatch
 }))(HomeCreateView)

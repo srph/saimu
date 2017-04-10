@@ -7,4 +7,11 @@
     font-weight: 600;
     line-height: 2;
   }
+
+  > .message {
+    margin-top: 4px;
+    margin-bottom: 0;
+    color: $color-danger;
+    font-size: 12px;
+  }
 }

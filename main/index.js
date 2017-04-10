@@ -1,2 +1,3 @@
-require('babel-register');
-require('./main');
+require('babel-register')
+require('extend-error')
+require('./main')

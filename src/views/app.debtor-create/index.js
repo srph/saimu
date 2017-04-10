@@ -39,10 +39,6 @@ class DebtorCreateView extends Component {
   handleSubmit = (evt) => {
     evt.preventDefault()
 
-    if (!this.state.name) {
-      return
-    }
-
     this.props.dispatch({ type: 'debtors:create!', payload: this.state })
   }
 }

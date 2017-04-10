@@ -22,15 +22,14 @@ export default function debts({dispatch}) {
           const {data, debtorId} = action.payload
 
           ipc.once('debts:create', (event, data) => {
-            dispatch({
-              type: 'debts:create.data',
-              payload: {
-                data,
-                debtorId
-              }
-            })
+            if (data.error) {
+              dispatch(toast(data.message))
+              dispatch({ type: 'debts:create.error', payload: data.errors })
+              return
+            }
 
             dispatch(toast('A new debt was added'))
+            dispatch({ type: 'debts:create.data', payload: { data, debtorId } })
             history.push(`/d/${data.debtor_id}`)
           })
 
@@ -46,13 +45,15 @@ export default function debts({dispatch}) {
           const {payload} = action
 
           ipc.once('transactions:create', (event, data) => {
+            if (data.error) {
+              dispatch(toast(data.errors.amount[0]))
+              dispatch({ type: 'transactions:create.error', payload: data.errors })
+              return
+            }
+
             dispatch({
               type: 'transactions:create.data',
-              payload: {
-                data,
-                debtId: payload.debtId,
-                debtorId: payload.debtorId,
-              }
+              payload: { data, debtId: payload.debtId, debtorId: payload.debtorId, }
             })
 
             dispatch(toast('A new debt transaction was added'))

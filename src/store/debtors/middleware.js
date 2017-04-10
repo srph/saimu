@@ -20,7 +20,11 @@ export default function debtors({dispatch}) {
 
         case 'debtors:create!': {
           ipc.once('debtors:create', (event, data) => {
-            console.log(toast('The debtor was successfully registered'), dispatch)
+            if (data.error) {
+              dispatch(toast(data.errors.name[0]))
+              return
+            }
+
             dispatch(toast('The debtor was successfully registered'))
             dispatch({ type: 'debtors:create.data', payload: data })
             history.push(`/d/${data.id}`)

@@ -1,4 +1,4 @@
-const ipc = require('electron').ipcMain
+const ipc = require('./wrapped')
 
 const low = require('lowdb')
 const db = low('dummy.json')

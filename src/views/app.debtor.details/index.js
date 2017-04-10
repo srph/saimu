@@ -10,13 +10,8 @@ import Transactions from './Transactions'
 import Remaining from './Remaining'
 
 class HomeDetailsView extends Component {
-  state = {
-    creating: false
-  }
-
   render() {
-    const {creating} = this.state
-    const {debt, debtor} = this.props
+    const {debt, debtor, creating} = this.props
 
     return (
       <div>
@@ -71,7 +66,7 @@ class HomeDetailsView extends Component {
   }
 
   handleCreate = () => {
-    this.setState({ creating: !this.state.creating })
+    this.props.dispatch({ type: 'transactions:mode' })
   }
 
   handleStore = data => {
@@ -83,8 +78,6 @@ class HomeDetailsView extends Component {
         debtorId: this.props.debtor.id
       }
     })
-
-    this.setState({ creating: false })
   }
 
   handleClose = () => {
@@ -95,7 +88,8 @@ class HomeDetailsView extends Component {
 export default connect((state, props) => ({
   debt: transform(
     getById(state.debts.data, props.routeParams.debtId)
-  )
+  ),
+  creating: state.debts.creating
 }), dispatch => ({
   dispatch
 }))(HomeDetailsView)

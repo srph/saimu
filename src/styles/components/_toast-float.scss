@@ -5,6 +5,7 @@
   bottom: 32px;
   right: 32px;
   pointer-events: none;
+  z-index: $zindex-toast;
 
   > .item {
     display: inline-block;
