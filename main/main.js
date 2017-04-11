@@ -1,5 +1,6 @@
 import {app, BrowserWindow} from 'electron'
-import ipc from './ipc';
+import ipc from './ipc'
+import menu from './menu'
 
 let win = null
 
@@ -12,7 +13,7 @@ app.on('ready', () => {
     // titleBarStyle: 'hidden'
   })
 
-  win.loadURL(`file://${__dirname}/index.html`)
+  win.loadURL(`file://${__dirname}/../public/index.html`)
   win.webContents.openDevTools()
 
   win.on('closed', () => {
