@@ -8,7 +8,7 @@ module.exports = {
   // Basic input-output configuration
   entry: './src/index.js',
   output: {
-    path: './main/dist/',
+    path: './public/dist/',
     filename: 'script.js'
   },
 
