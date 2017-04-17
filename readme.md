@@ -1,5 +1,7 @@
-# Saimu
+# Uomi
 [WIP] A user-friendly personal debt tracker tool
+
+![Preview](preview.png)
 
 ## Developing
 ```
