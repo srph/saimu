@@ -1,22 +1,13 @@
-const ipc = require('./wrapped')
-
-const low = require('lowdb')
-const db = low('dummy.json')
-db._.mixin(require('lodash-id'))
-
-db.defaults({
-  debts: [],
-  transactions: [],
-  debtors: []
-}).write()
+const ipc = require('../wrapped')
+const db = require('./app-db')
 
 ipc.on('debtors:get', (event) => {
-  const debtors = db.get('debtors').value()
+  const debtors = db.instance().get('debtors').value()
   event.sender.send('debtors:get', debtors)
 })
 
 ipc.on('debtors:create', (event, data) => {
-  let debtor = db.get('debtors')
+  let debtor = db.instance().get('debtors')
     .insert({
       name: data.name,
       remaining: 0,
@@ -27,14 +18,13 @@ ipc.on('debtors:create', (event, data) => {
   event.sender.send('debtors:create', debtor)
 })
 
-
 ipc.on('debts:get', (event, id) => {
-  const debts = db.get('debts')
+  const debts = db.instance().get('debts')
     .filter({ debtor_id: id })
     .value()
     .map(debt => ({
       ...debt,
-      transactions: db.get('transactions')
+      transactions: db.instance().get('transactions')
         .filter({ debt_id: debt.id })
         .value()
     }))
@@ -45,7 +35,7 @@ ipc.on('debts:get', (event, id) => {
 ipc.on('debts:create', (event, data) => {
   const amount = parseInt(data.amount, 10)
 
-  const debt = db.get('debts')
+  const debt = db.instance().get('debts')
     .insert({
       debtor_id: data.debtor_id,
       amount,
@@ -54,7 +44,7 @@ ipc.on('debts:create', (event, data) => {
     })
     .write()
 
-  db.get('debtors')
+  db.instance().get('debtors')
     .find({ id: data.debtor_id })
     .update('remaining', remaining => remaining + amount)
     .write()
@@ -68,7 +58,7 @@ ipc.on('debts:create', (event, data) => {
 ipc.on('transactions:create', (event, data) => {
   const amount = parseInt(data.amount, 10)
 
-  const transaction = db.get('transactions')
+  const transaction = db.instance().get('transactions')
     .insert({
       debt_id: data.debt_id,
       amount: amount,
@@ -77,11 +67,11 @@ ipc.on('transactions:create', (event, data) => {
     })
     .write()
 
-  const debt = db.get('debts')
+  const debt = db.instance().get('debts')
     .find({ id: data.debt_id })
     .value()
 
-  db.get('debtors')
+  db.instance().get('debtors')
     .find({ id: debt.debtor_id })
     .update('remaining', remaining => Math.max(remaining - amount, 0))
     .write()

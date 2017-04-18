@@ -8,6 +8,7 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 import MainView from './views/main';
+import IntroView from './views/intro';
 import AppView from './views/app';
 import HomeView from './views/app.home';
 import DebtorView from './views/app.debtor';
@@ -25,5 +26,7 @@ export default (
         <Route path=":debtId/details" component={DebtorViewDetailsView} />
       </Route>
     </Route>
+
+    <Route path="/intro" component={IntroView} />
   </Route>
 );

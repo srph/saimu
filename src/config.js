@@ -8,15 +8,6 @@
 
 export default {
   // ==============================
-  // Google Oauth Configuration
-  // ==============================
-  google: {
-    clientId: '',
-    clientSecret: '',
-    domain: ''
-  },
-
-  // ==============================
   // Assets
   // ==============================
   //

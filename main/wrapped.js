@@ -5,6 +5,8 @@ const ValidationError = Error.extend('ValidationError')
 const wrapped = {
   on(type, cb) {
     ipc.on(type, (event, data) => {
+      data = data || {}
+
       try {
         validate(type, data)
       } catch(e) {
@@ -13,7 +15,7 @@ const wrapped = {
           message: 'There were some problems with your input.',
           errors: e.message
         })
-        
+
         return
       }
 

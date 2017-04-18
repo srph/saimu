@@ -37,5 +37,6 @@ node_modules
 Thumbs.db
 .DS_Store
 
-# Dummy json db
-dummy.json
+# App-related file dbs
+.loanerdata.json
+.loanerconfig.json

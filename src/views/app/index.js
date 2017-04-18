@@ -17,11 +17,22 @@ class AppView extends React.Component {
   timeout = null
 
   componentDidMount() {
+    if (!this.props.configResolved) {
+      this.props.dispatch({ type: 'config:fetch!' })
+      return
+    }
+
     this.props.dispatch({ type: 'debtors:fetch!' })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.resolved && !nextProps.resolved) {
+      this.props.dispatch({ type: 'debtors:fetch!' })
+    }
+  }
+
   render() {
-    if (!this.props.resolved) {
+    if (!this.props.resolved || !this.props.configResolved) {
       return <div />
     }
 
@@ -128,7 +139,9 @@ class AppView extends React.Component {
 
 export default connect(state => ({
   debtors: state.debtors.data,
-  resolved: state.debtors.resolved
+  resolved: state.debtors.resolved,
+  config: state.config.data,
+  configResolved: state.config.resolved
 }), dispatch => ({
   dispatch
 }))(AppView)

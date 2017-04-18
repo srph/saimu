@@ -26,12 +26,33 @@
     color: darken($color-primary, 5%);
   }
 
+  > .iconleft {
+    margin-right: 8px;
+  }
+
+  > .iconright {
+    margin-left: 8px;
+  }
+
   &.-primary {
     @include button-variant($color-primary);
   }
 
+  &.-sub {
+    @include button-variant($color-sub);
+  }
+
   &.-plain {
     @include button-variant($color-gray-dark);
+  }
+
+  &.-clear {
+    color: $color-gray-dark;
+  }
+
+  &.-clear:hover,
+  &.-clear:focus {
+    color: darken($color-gray-dark, 10%);
   }
 
   &.-small {
@@ -40,9 +61,19 @@
     height: $form-size-small;
   }
 
+  &.-x-small {
+    font-size: 12px;
+    line-height: $form-size-x-small - 1px;
+    height: $form-size-x-small;
+  }
+
   &.-block {
     display: block;
     width: 100%;
+  }
+
+  &.-paddingless {
+    padding: 0;
   }
 
   &.-rounded {

@@ -1,0 +1,32 @@
+.intro-section {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 280px;
+  text-align: center;
+  background: $color-white;
+
+  > .heading {
+    text-transform: uppercase;
+  }
+
+  > .text {
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  > .form-combo {
+    margin-bottom: 16px;
+  }
+
+  > .actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}

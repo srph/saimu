@@ -1,6 +1,6 @@
 import {app, BrowserWindow} from 'electron'
 import ipc from './ipc'
-import menu from './menu'
+// import menu from './menu'
 
 let win = null
 
