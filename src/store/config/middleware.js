@@ -40,6 +40,23 @@ export default function configMiddleware({dispatch}) {
 
           break
         }
+
+        case 'config:update!': {
+          ipc.once('config:update', (event, data) => {
+            if (data.error) {
+              dispatch(toast(data.errors.path[0]))
+              return
+            }
+
+            window.location.reload()
+            dispatch({ type: 'config:update.data', payload: data })
+            dispatch(toast(`Your database file has been updated`))
+          })
+
+          ipc.send('config:update', action.payload)
+
+          break
+        }
       }
 
       return result

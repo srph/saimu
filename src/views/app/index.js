@@ -6,12 +6,14 @@ import {connect} from 'react-redux'
 import debounce from 'lodash/debounce'
 import numeral from 'numeral'
 import Toast from './Toast'
+import Settings from './Settings'
 
 class AppView extends React.Component {
   state = {
     query: '',
     search: '',
-    filter: '0'
+    filter: '0',
+    config: false
   }
 
   timeout = null
@@ -57,7 +59,7 @@ class AppView extends React.Component {
         <div className="main-layout">
           <aside className="menu">
             <div className="pane-heading">
-              <button className="action">
+              <button onClick={this.handleToggleConfig} className="action">
                 <i className="fa fa-cog" />
               </button>
 
@@ -116,8 +118,15 @@ class AppView extends React.Component {
         </div>
 
         <Toast />
+        <Settings
+          open={this.state.config}
+          onCancel={this.handleToggleConfig} />
       </div>
     );
+  }
+
+  handleToggleConfig = () => {
+    this.setState({ config: !this.state.config });
   }
 
   handleSelect = evt => {

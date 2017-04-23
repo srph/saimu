@@ -1,13 +1,13 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes as T} from 'react'
 
-export default class FileInput extends Component {
+class FolderInput extends Component {
   file = null
 
   render() {
-    const {value} = this.props
+    const {value, className} = this.props
 
     return (
-      <div aria-label={value} className="form-combo hint--bottom">
+      <div aria-label={value} className={`form-combo hint--bottom ${className}`}>
         <input readOnly
           type="text"
           className="input"
@@ -48,3 +48,14 @@ export default class FileInput extends Component {
     }
   }
 }
+
+FolderInput.propTypes = {
+  value: T.string,
+  onChange: T.func
+}
+
+FolderInput.defaultProps = {
+  className: ''
+}
+
+export default FolderInput

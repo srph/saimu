@@ -1,0 +1,19 @@
+.alert-note {
+  position: relative;
+  padding: 8px;
+  padding-left: 48px;
+  font-size: $font-size-h5;
+  color: $color-white;
+  background: #f4645f;
+  border-radius: $border-radius;
+
+  &::before {
+    @include fa-icon;
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    display: block;
+    content: $fa-var-info-circle;
+    font-size: 22px;
+  }
+}

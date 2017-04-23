@@ -1,5 +1,5 @@
 import React from 'react'
-import FileInput from './FileInput'
+import FolderInput from 'app/components/FolderInput'
 
 class CustomizeView extends React.Component {
   state = {
@@ -12,7 +12,7 @@ class CustomizeView extends React.Component {
       <section className="intro-section">
         <h5 className="heading">Database File</h5>
 
-        <FileInput value={this.state.path} onChange={this.handleChange} />
+        <FolderInput value={this.state.path} onChange={this.handleChange} />
 
         <div className="actions">
           <button

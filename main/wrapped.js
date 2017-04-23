@@ -53,6 +53,14 @@ function validate(preset, data) {
       break
     }
 
+    case 'config:update': {
+      validator = new Validator(data, {
+        path: 'required|fs-accessible'
+      })
+
+      break
+    }
+
     default: {
       return
     }

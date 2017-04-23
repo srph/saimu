@@ -41,6 +41,10 @@
     background: $color-sub;
   }
 
+  &.-spacious > .modal > .body {
+    padding: 24px;
+  }
+
   &.-medium > .modal {
     width: 600px;
   }

@@ -29,6 +29,13 @@ export default function config(state = initial, action) {
         resolved: true
       }
     }
+
+    case 'config:update.data': {
+      return {
+        ...state,
+        data: action.payload
+      }
+    }
   }
 
   return state

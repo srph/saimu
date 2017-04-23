@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path')
 const ipc = require('../wrapped')
 const config = require('./config-db')
@@ -21,4 +22,12 @@ ipc.on('config:create', (event, data) => {
   config.set('config_path', file).write()
   db.set(file)
   event.sender.send('config:create', config.value())
+})
+
+ipc.on('config:update', (event, data) => {
+  console.log('Updated')
+  const file = path.join(data.path, '.loanerdata')
+  config.set('config_path', file).write()
+  db.set(file)
+  event.sender.send('config:update', config.value())
 })
